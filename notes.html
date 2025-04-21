@@ -6,6 +6,8 @@
     <title>To do list</title>
     <link rel="shortcut icon" href="./assets/writing.png" type="image/png">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gridstack@9.2.2/dist/gridstack.min.css" />
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
@@ -200,23 +202,12 @@
             z-index: 1000;
         }
 
-        main .main_section_lista_notas{
-            width: 15%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.125);
-            
-        }
-
         main .main_section_notas{
-            width: 85%;
+            width: 100%;
             height: 100%;
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            grid-auto-rows: 200px;
+            grid-auto-rows: 300px;
             gap: 1rem;
             position: relative;
             background-color: transparent;
@@ -238,6 +229,11 @@
             padding: 1rem;
             box-sizing: border-box;
             cursor: grab;
+        }
+
+        .grid-stack{
+            width: 100%;
+            height: 100%;
         }
 
         .main_section_notas_nota_abierta{
@@ -280,11 +276,8 @@
     </header>
 
     <main>
-        <div class="main_section_lista_notas">
+        <div id="main_section_notas" class="main_section_notas grid-stack" contenteditable="false">
 
-        </div>
-        <div id="main_section_notas" class="main_section_notas">
-            
         </div>
     </main>
 
@@ -300,13 +293,13 @@
         function crear_nueva_nota(){
             let main_section_notas_nota = document.createElement("div")
             main_section_notas_nota.classList.add("main_section_notas_nota")
-            main_section_notas_nota.setAttribute("contenteditable", "true")
             main_section_notas.appendChild(main_section_notas_nota)
         
             main_section_notas_nota.addEventListener("click", function(){
                 // Cerrar cualquier otra nota abierta
                 document.querySelectorAll(".main_section_notas_nota_abierta").forEach(nota => {
                     nota.classList.remove("main_section_notas_nota_abierta")
+                    nota.setAttribute("contenteditable", "true")
                 });
             
                 // Abrir la nota actual
@@ -319,6 +312,7 @@
             let nota_abierta = document.querySelector(".main_section_notas_nota_abierta")
             if(nota_abierta){
                 nota_abierta.classList.remove("main_section_notas_nota_abierta")
+                nota_abierta.setAttribute("contenteditable", "false")
             }
         })
 
@@ -328,7 +322,6 @@
             animation: 150,
             ghostClass: 'sortable-ghost'
         })
-  
     </script>
 </body>
 </html>
