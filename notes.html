@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do list</title>
+    <link rel="shortcut icon" href="./assets/writing.png" type="image/png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+        :root{
+            --font-size-lg: 8rem;
+            --font-size-md: 3rem;
+            --font-size-sm: 1.5rem;
+            --font-family: "Roboto", sans-serif;
+            --color-desert-sand: #DEC6B5;
+            --color-eerie-black: #1D1D1F;
+            --color-celtic-blue: #0171E3;
+            --color-celtic-blue-hover: #0171E3B3;;
+            --color-anti-flash-white: #F5F5F7;
+        
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            font-family: var(--font-family);
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .background-blobs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        body section{
+            position: absolute;
+            border-radius: 50%;
+            animation: gradient 4s infinite;
+            z-index: -1;
+
+        }
+
+        @keyframes gradient{
+            70%{
+                transform: scale(1, 2) translate(50px);
+            }
+
+        }
+
+        body section:nth-child(1){
+            width: 80%;
+            height: 90%;
+            background-color: #ff057c;
+            left: -29%;
+            top: -10%;
+
+        }
+
+        body section:nth-child(2){
+            width: 70%;
+            height: 80%;
+            background-color: #800f86;
+            top: -12%;
+            right: -12%;
+            animation-delay: 8s;
+
+        }
+
+        body section:nth-child(3){
+            width: 80%;
+            height: 65%;
+            background-color: #1619b9;
+            bottom: -15%;
+            right: -20%;
+            animation-delay: 0.3s;
+
+        }
+
+        body section:nth-child(4){
+            width: 75%;
+            height: 50%;
+            background-color: #1ba8e9;
+            bottom: -10%;
+            left: -18%;
+            animation-delay: 1.2s;
+
+        }
+
+        body::after{
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 100vh;
+            backdrop-filter: blur(500px);
+            z-index: 0; /* Justo encima de las secciones, pero debajo del contenido */
+            top: 0;
+            left: 0;
+
+        }
+
+        header{
+            width: 100%;
+            max-height: 5vh;
+            min-height: 5vh;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(15px) saturate(200%);
+            -webkit-backdrop-filter: blur(15px) saturate(200%);
+            background-color: rgba(255, 255, 255, 0.5);
+            padding: 1rem;
+            margin: 0;
+            box-sizing: border-box;
+            z-index: 100;
+        }
+
+        header nav{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        header nav ul{
+            width: auto;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+            margin: 0;
+            gap: 1rem;
+            box-sizing: border-box;
+            list-style: none;
+        }
+
+        header nav ul a img{
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        header nav ul button{
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        header nav ul button img{
+            width: 100%;
+            height: auto;
+        }
+
+        main{
+            width: 100%;
+            max-height: 95vh;
+            min-height: 95vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            backdrop-filter: blur(15px) saturate(200%);
+            -webkit-backdrop-filter: blur(15px) saturate(200%);
+            background-color: rgba(17, 25, 40, 0.5);
+            z-index: 1000;
+        }
+
+        main .main_section_lista_notas{
+            width: 15%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.125);
+            
+        }
+
+        main .main_section_notas{
+            width: 85%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-auto-rows: 200px;
+            gap: 1rem;
+            position: relative;
+            background-color: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.125);
+            padding: 1rem;
+            margin: 0;
+            overflow-y: auto;
+            box-sizing: border-box;
+            
+        }
+
+        .main_section_notas_nota{
+            width: 100%;
+            height: 100%;
+            background-color: var(--color-celtic-blue, #3a86ff);
+            border-radius: 1rem;
+            font-size: var(--font-size-sm);
+            color: var(--color-anti-flash-white);
+            padding: 1rem;
+            box-sizing: border-box;
+            cursor: grab;
+        }
+
+        .main_section_notas_nota_abierta{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: var(--color-celtic-blue, #3a86ff);
+            top: 0;
+            left: 0;
+            border-radius: 0;
+            font-size: var(--font-size-sm);
+            color: var(--color-anti-flash-white);
+            padding: 1rem;
+            z-index: 10;
+            box-sizing: border-box;
+            cursor: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-blobs">
+        <section></section>
+        <section></section>
+        <section></section>
+        <section></section>
+    </div>
+    <header>
+        <nav>
+            <ul>
+                <a href="./index.html"><img src="./assets/writing.png" alt=""></a>
+                <button id="button_cerrar_nota"><img src="./assets/back.png" alt=""></button>
+                <button id="button_crear_nueva_nota"><img src="./assets/plus-sign.png" alt=""></button>
+            </ul>
+            <ul>
+                <button><img src="./assets/font-adjustment.png" alt=""></button>
+                <button><img src="./assets/wave-sound.png" alt=""></button>
+                <button><img src="./assets/photo.png" alt=""></button>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="main_section_lista_notas">
+
+        </div>
+        <div id="main_section_notas" class="main_section_notas">
+            
+        </div>
+    </main>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+        let button_cerrar_nota = document.getElementById("button_cerrar_nota")
+        let button_crear_nueva_nota = document.getElementById("button_crear_nueva_nota")
+        let main_section_notas = document.getElementById("main_section_notas")
+
+        button_crear_nueva_nota.addEventListener("click", crear_nueva_nota)
+
+        function crear_nueva_nota(){
+            let main_section_notas_nota = document.createElement("div")
+            main_section_notas_nota.classList.add("main_section_notas_nota")
+            main_section_notas_nota.setAttribute("contenteditable", "true")
+            main_section_notas.appendChild(main_section_notas_nota)
+        
+            main_section_notas_nota.addEventListener("click", function(){
+                // Cerrar cualquier otra nota abierta
+                document.querySelectorAll(".main_section_notas_nota_abierta").forEach(nota => {
+                    nota.classList.remove("main_section_notas_nota_abierta")
+                });
+            
+                // Abrir la nota actual
+                main_section_notas_nota.classList.add("main_section_notas_nota_abierta")
+            });
+        }
+
+        button_cerrar_nota.addEventListener("click", function(){
+            // Busca y cierra la nota abierta actualmente
+            let nota_abierta = document.querySelector(".main_section_notas_nota_abierta")
+            if(nota_abierta){
+                nota_abierta.classList.remove("main_section_notas_nota_abierta")
+            }
+        })
+
+        
+
+        new Sortable(document.getElementById("main_section_notas"), {
+            animation: 150,
+            ghostClass: 'sortable-ghost'
+        })
+  
+    </script>
+</body>
+</html>

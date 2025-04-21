@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do list</title>
+    <link rel="shortcut icon" href="./assets/writing.png" type="image/png">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+        :root{
+            --font-size-lg: 8rem;
+            --font-size-md: 3rem;
+            --font-size-sm: 1.5rem;
+            --font-family: "Roboto", sans-serif;
+            --color-desert-sand: #DEC6B5;
+            --color-eerie-black: #1D1D1F;
+            --color-celtic-blue: #0171E3;
+            --color-celtic-blue-hover: #0171E3B3;;
+            --color-anti-flash-white: #F5F5F7;
+
+        }
+
+        body{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-family);
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            overflow: hidden;
+
+        }
+
+        body section{
+            position: absolute;
+            border-radius: 50%;
+            animation: gradient 4s infinite;
+
+        }
+
+        @keyframes gradient{
+            70%{
+                transform: scale(1, 2) translate(50px);
+            }
+
+        }
+
+        body section:nth-child(1){
+            width: 80%;
+            height: 90%;
+            background-color: #ff057c;
+            left: -29%;
+            top: -10%;
+
+        }
+
+        body section:nth-child(2){
+            width: 70%;
+            height: 80%;
+            background-color: #800f86;
+            top: -12%;
+            right: -12%;
+            animation-delay: 8s;
+
+        }
+
+        body section:nth-child(3){
+            width: 80%;
+            height: 65%;
+            background-color: #1619b9;
+            bottom: -15%;
+            right: -20%;
+            animation-delay: 8s;
+            animation-delay: 0.3s;
+
+        }
+
+        body section:nth-child(4){
+            width: 75%;
+            height: 50%;
+            background-color: #1ba8e9;
+            bottom: -10%;
+            left: -18%;
+            animation-delay: 1.2s;
+
+        }
+
+        body::after{
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 100vh;
+            backdrop-filter: blur(80px);
+
+        }
+
+        body div{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            user-select: none;
+            
+        }
+
+        body div h1{
+            color: var(--color-anti-flash-white);
+            
+            font-size: var(--font-size-lg);
+            z-index: 100;
+        }
+
+        body div h1 span{
+            color: var(--color-cool-seashell);
+        }
+
+        body div .div_button{
+            width: 30rem;
+            height: 4rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            border-radius: 50px;
+            padding: 5px;
+            margin: 0;
+            box-sizing: border-box;
+            z-index: 100;
+        }
+
+        body div .div_button button{
+            width: 90%;
+            height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--color-celtic-blue);
+            border: none;
+            font-size: var(--font-size-sm);
+            color: var(--color-anti-flash-white);
+            border-radius: 50px;
+            z-index: 100;
+            cursor: pointer;
+        }
+
+        body div .div_button button:hover{
+            width: 90%;
+            height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--color-celtic-blue-hover);
+            border: none;
+            font-size: var(--font-size-sm);
+            color: var(--color-anti-flash-white);
+            border-radius: 50px;
+            z-index: 100;
+            cursor: pointer;
+        }
+
+        
+
+    </style>
+</head>
+<body>
+    <div>
+        <section></section>
+        <section></section>
+        <section></section>
+        <section></section>
+        <h1>To do <span class="auto-type"></span></h1>
+        <div class="div_button">
+            <button id="button_comenzar"">Comenzar</button>
+        </div>
+        
+    </div>
+
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
+    <script>
+        let typed  = new Typed(".auto-type",{
+            strings: ["list", "tasks"],
+                typeSpeed: 150,
+                backSpeed: 150,
+                loop: true
+        })
+
+        let button_comenzar = document.getElementById("button_comenzar")
+
+        button_comenzar.addEventListener("click", llevar_a_formulario)
+
+        function llevar_a_formulario(){
+            window.location.href = 'notes.html'
+        }
+
+
+    </script>
+
+</body>
+</html>
