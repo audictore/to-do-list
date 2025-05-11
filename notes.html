@@ -179,13 +179,23 @@
             align-items: center;
             background-color: transparent;
             border: none;
+            font-size: var(--font-size-sm);
+            font-weight: normal;
             text-decoration: none;
             cursor: pointer;
+        }
+
+        .activo {
+           font-weight: bold;
         }
 
         header nav ul button img{
             width: 100%;
             height: auto;
+        }
+
+        .header_nota{
+            display: none;
         }
 
         main{
@@ -228,6 +238,7 @@
             color: var(--color-anti-flash-white);
             padding: 1rem;
             box-sizing: border-box;
+            overflow: hidden;
             cursor: grab;
         }
 
@@ -248,6 +259,7 @@
             color: var(--color-anti-flash-white);
             padding: 1rem;
             z-index: 10;
+            overflow-y: auto;
             box-sizing: border-box;
             cursor: auto;
         }
@@ -260,17 +272,26 @@
         <section></section>
         <section></section>
     </div>
-    <header>
+    <header class="header_principal_notas" id="header_principal_notas">
+        <nav>
+            <ul>
+                <a href="./index.html"><img src="./assets/writing.png" alt=""></a>
+                <button id="button_crear_nueva_nota"><img src="./assets/plus-sign.png" alt=""></button>
+            </ul>
+        </nav>
+    </header>
+
+    <header class="header_nota" id="header_nota">
         <nav>
             <ul>
                 <a href="./index.html"><img src="./assets/writing.png" alt=""></a>
                 <button id="button_cerrar_nota"><img src="./assets/back.png" alt=""></button>
-                <button id="button_crear_nueva_nota"><img src="./assets/plus-sign.png" alt=""></button>
             </ul>
             <ul>
-                <button><img src="./assets/font-adjustment.png" alt=""></button>
-                <button><img src="./assets/wave-sound.png" alt=""></button>
-                <button><img src="./assets/photo.png" alt=""></button>
+                <button><img src="./assets/trash-can.png" alt=""></button>
+                <button id="button_black">Aa</button>
+                <button id="button_audio"><img src="./assets/wave-sound.png" alt=""></button>
+                <button id="button_img"><img src="./assets/photo.png" alt=""></button>
             </ul>
         </nav>
     </header>
@@ -281,12 +302,21 @@
         </div>
     </main>
 
+    <input type="file" id="input_audio" accept="audio/*" style="display: none;">
+    <input type="file" id="input_img" accept="image/*" style="display: none;">
 
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script>
+        let header_principal_notas = document.getElementById("header_principal_notas")
+        let header_nota = document.getElementById("header_nota")
+
         let button_cerrar_nota = document.getElementById("button_cerrar_nota")
         let button_crear_nueva_nota = document.getElementById("button_crear_nueva_nota")
         let main_section_notas = document.getElementById("main_section_notas")
+
+        let button_audio = document.getElementById("button_audio")
+        let button_black = document.getElementById("button_black")
+        let button_img = document.getElementById("button_img")
 
         button_crear_nueva_nota.addEventListener("click", crear_nueva_nota)
 
@@ -304,7 +334,9 @@
             
                 // Abrir la nota actual
                 main_section_notas_nota.classList.add("main_section_notas_nota_abierta")
-            });
+                header_principal_notas.style.display = "none"
+                header_nota.style.display = "flex"
+            })
         }
 
         button_cerrar_nota.addEventListener("click", function(){
@@ -313,10 +345,77 @@
             if(nota_abierta){
                 nota_abierta.classList.remove("main_section_notas_nota_abierta")
                 nota_abierta.setAttribute("contenteditable", "false")
+                header_principal_notas.style.display = "flex"
+                header_nota.style.display = "none"
+            }
+        })
+
+        button_black.addEventListener("click", cambiar_tipo_de_texto)
+
+        function cambiar_tipo_de_texto() {
+            document.execCommand("bold");
+        
+            // Alterna la apariencia del botón también
+            if (button_black.classList.contains("activo")) {
+                button_black.classList.remove("activo");
+            } else {
+                button_black.classList.add("activo");
+            }
+        }
+
+        let input_audio = document.getElementById("input_audio");
+
+        button_audio.addEventListener("click", function () {
+            input_audio.click();
+        })
+
+        input_audio.addEventListener("change", function (event) {
+            const file = event.target.files[0]
+            if (file) {
+                const audioURL = URL.createObjectURL(file)
+                const audioElement = document.createElement("audio")
+                audioElement.controls = true
+                audioElement.src = audioURL
+            
+                let nota_abierta = document.querySelector(".main_section_notas_nota_abierta");
+                if (nota_abierta) {
+                    nota_abierta.appendChild(audioElement)
+                }
+            
+                // Limpiar input para permitir subir el mismo archivo de nuevo si se desea
+                input_audio.value = ''
+            }
+        })
+
+
+        button_img.addEventListener("click", function(){
+            input_img.click()
+        })
+
+        input_img.addEventListener("change", function(event){
+            const file = event.target.files[0]
+
+            if(file && file.type.startsWith("image/")){
+                const reader = new FileReader()
+                reader.onload = function(e){
+                    const img = document.createElement("img");
+                    img.src = e.target.result
+                    img.style.maxWidth = "100%"
+                    img.style.margin = "10px 0"
+                
+                    // Busca la nota abierta
+                    let nota_abierta = document.querySelector(".main_section_notas_nota_abierta")
+                    if(nota_abierta){
+                        // Inserta la imagen al final de la nota
+                        nota_abierta.appendChild(img);
+                    }
+                };
+                reader.readAsDataURL(file);
             }
         })
 
         
+
 
         new Sortable(document.getElementById("main_section_notas"), {
             animation: 150,
